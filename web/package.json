@@ -9,15 +9,20 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.61.3",
+    "@tanstack/react-query": "^5.101.0",
     "@tanstack/react-router": "^1.170.7",
+    "nanoid": "^5.1.11",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
     "@tanstack/router-plugin": "^1.168.10",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
+    "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
     "vite": "^8.0.14"
   }

@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@clerk/backend": "^3.7.0",
     "hono": "^4.12.22"
   },
   "devDependencies": {
