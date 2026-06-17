@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react'
 import { BrandingPanel } from '../../../../components/builder/BrandingPanel'
 import { QuestionEditor } from '../../../../components/builder/QuestionEditor'
 import { QuestionList } from '../../../../components/builder/QuestionList'
+import { SurveyPreview } from '../../../../components/builder/SurveyPreview'
 import { Button } from '../../../../components/ui/Button'
 import { Input } from '../../../../components/ui/Input'
 import { copyToClipboard, defaultConfigForType } from '../../../../lib/survey-utils'
 import { useApi } from '../../../../lib/use-api'
-import type { QuestionInput, QuestionType, SurveyDto } from '../../../../types/survey'
+import type { QuestionDto, QuestionInput, QuestionType, SurveyDto } from '../../../../types/survey'
 
 export const Route = createFileRoute('/_app/surveys/$id/edit')({
   component: SurveyEditPage,
@@ -80,7 +81,7 @@ function SurveyEditPage() {
     const newQuestion: QuestionInput = {
       id: nanoid(),
       type,
-      title: `New ${type.replace('_', ' ')} question`,
+      title: '',
       config: defaultConfigForType(type),
       sortOrder: questions.length,
     }
@@ -148,19 +149,23 @@ function SurveyEditPage() {
         <p className="mb-4 text-sm text-red-600">{saveSurvey.error.message}</p>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_280px]">
+      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_320px]">
         <section className="rounded-xl border border-slate-200 bg-white p-4">
           <h2 className="mb-4 text-sm font-semibold text-slate-900">Questions</h2>
-          {selectedId ? (
-            <QuestionList
-              questions={questions}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-              onAdd={addQuestion}
-              onRemove={removeQuestion}
-              onMove={moveQuestion}
-            />
-          ) : null}
+          <div className="max-h-[calc(100vh-20rem)] overflow-y-auto pr-1">
+            {selectedId ? (
+              <QuestionList
+                questions={questions}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+                onAdd={addQuestion}
+                onRemove={removeQuestion}
+                onMove={moveQuestion}
+              />
+            ) : (
+              <p className="text-sm text-slate-500">Select a question to edit</p>
+            )}
+          </div>
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-6">
@@ -177,14 +182,25 @@ function SurveyEditPage() {
           )}
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-4">
-          <h2 className="mb-4 text-sm font-semibold text-slate-900">Branding</h2>
-          <BrandingPanel
-            primaryColor={primaryColor}
-            logoUrl={logoUrl}
-            onColorChange={setPrimaryColor}
-            onLogoUrlChange={setLogoUrl}
-          />
+        <section className="space-y-6 rounded-xl border border-slate-200 bg-white p-4">
+          <div>
+            <h2 className="mb-4 text-sm font-semibold text-slate-900">Branding</h2>
+            <BrandingPanel
+              primaryColor={primaryColor}
+              logoUrl={logoUrl}
+              onColorChange={setPrimaryColor}
+              onLogoUrlChange={setLogoUrl}
+            />
+          </div>
+          <div>
+            <h2 className="mb-4 text-sm font-semibold text-slate-900">Preview</h2>
+            <SurveyPreview
+              title={title}
+              logoUrl={logoUrl}
+              primaryColor={primaryColor}
+              questions={questions as QuestionDto[]}
+            />
+          </div>
         </section>
       </div>
     </div>

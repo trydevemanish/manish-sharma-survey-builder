@@ -30,6 +30,24 @@ function DashboardPage() {
     },
   })
 
+  const deleteSurvey = useMutation({
+    mutationFn: (surveyId: string) =>
+      api<{ ok: true }>(`/api/surveys/${surveyId}`, { method: 'DELETE' }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['surveys'] })
+      setMessage('Survey deleted')
+      setTimeout(() => setMessage(null), 2500)
+    },
+  })
+
+  const handleDeleteSurvey = async (surveyId: string, title: string) => {
+    const confirmed = window.confirm(
+      `Delete “${title}”? This will remove the survey and all related response data permanently.`
+    )
+    if (!confirmed) return
+    await deleteSurvey.mutateAsync(surveyId)
+  }
+
   const surveys = data?.surveys ?? []
 
   const handleCopyLink = async (slug: string) => {
@@ -70,10 +88,17 @@ function DashboardPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {surveys.map((survey) => (
-          <SurveyCard key={survey.id} survey={survey} onCopyLink={handleCopyLink} />
-        ))}
+      <div className="overflow-x-auto pb-3">
+        <div className="min-w-full grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {surveys.map((survey) => (
+            <SurveyCard
+              key={survey.id}
+              survey={survey}
+              onCopyLink={handleCopyLink}
+              onDelete={handleDeleteSurvey}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

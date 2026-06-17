@@ -14,6 +14,7 @@ export function SurveyWizard({ survey }: SurveyWizardProps) {
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
 
   const questions = survey.questions
   const current = questions[step]
@@ -65,27 +66,46 @@ export function SurveyWizard({ survey }: SurveyWizardProps) {
         </span>
         <div className="h-2 w-40 overflow-hidden rounded-full bg-slate-200">
           <div
-            className="h-full rounded-full bg-[var(--brand)] transition-all"
+            className="h-full rounded-full bg-(--brand) transition-all"
             style={{ width: `${((step + 1) / questions.length) * 100}%` }}
           />
         </div>
       </div>
 
-      <QuestionStep
-        question={current}
-        slug={survey.slug}
-        value={currentValue}
-        onChange={(value) => setAnswer(current.id, value)}
-      />
+      <div
+        className={`overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-transform duration-300 ease-out ${
+          direction === 'forward' ? 'animate-slide-in-up' : 'animate-slide-in-down'
+        }`}
+      >
+        <QuestionStep
+          question={current}
+          slug={survey.slug}
+          value={currentValue}
+          onChange={(value) => setAnswer(current.id, value)}
+        />
+      </div>
 
       {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
 
       <div className="mt-8 flex items-center justify-between">
-        <Button variant="ghost" disabled={step === 0} onClick={() => setStep((s) => s - 1)}>
+        <Button
+          variant="ghost"
+          disabled={step === 0}
+          onClick={() => {
+            setDirection('backward')
+            setStep((s) => s - 1)
+          }}
+        >
           Back
         </Button>
         {step < questions.length - 1 ? (
-          <Button disabled={!canAdvance} onClick={() => setStep((s) => s + 1)}>
+          <Button
+            disabled={!canAdvance}
+            onClick={() => {
+              setDirection('forward')
+              setStep((s) => s + 1)
+            }}
+          >
             Next
           </Button>
         ) : (

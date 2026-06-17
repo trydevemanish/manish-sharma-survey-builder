@@ -7,3 +7,48 @@
 body {
   @apply bg-slate-50 text-slate-900 antialiased;
 }
+
+@layer utilities {
+  .animate-slide-in-up {
+    animation: slide-in-up 0.35s ease-out;
+  }
+
+  .animate-slide-in-down {
+    animation: slide-in-down 0.35s ease-out;
+  }
+
+  .animate-marquee {
+    animation: marquee 18s linear infinite;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

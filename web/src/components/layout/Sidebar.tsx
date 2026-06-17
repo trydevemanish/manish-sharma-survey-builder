@@ -8,7 +8,7 @@ export function Sidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
 
   return (
-    <aside className="flex h-full w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <aside className="sticky top-0 flex min-h-screen w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="border-b border-slate-200 px-5 py-4">
         <Link to="/dashboard" className="text-lg font-semibold text-slate-900">
           Survey Builder

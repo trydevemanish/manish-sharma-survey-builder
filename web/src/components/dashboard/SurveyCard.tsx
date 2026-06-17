@@ -7,9 +7,10 @@ import { Card } from '../ui/Card'
 type SurveyCardProps = {
   survey: SurveyListItem
   onCopyLink: (slug: string) => void
+  onDelete?: (id: string, title: string) => void
 }
 
-export function SurveyCard({ survey, onCopyLink }: SurveyCardProps) {
+export function SurveyCard({ survey, onCopyLink, onDelete }: SurveyCardProps) {
   return (
     <Card className="p-5">
       <div className="flex items-start justify-between gap-4">
@@ -40,6 +41,15 @@ export function SurveyCard({ survey, onCopyLink }: SurveyCardProps) {
         <Button variant="ghost" size="sm" onClick={() => onCopyLink(survey.slug)}>
           Copy link
         </Button>
+        {onDelete ? (
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => onDelete(survey.id, survey.title)}
+          >
+            Delete
+          </Button>
+        ) : null}
       </div>
     </Card>
   )

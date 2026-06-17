@@ -4,7 +4,7 @@ import { FILE_MAX_SIZE_MB, LONG_TEXT_MAX_LENGTH } from '../types/survey'
 export function defaultConfigForType(type: QuestionType): QuestionConfig {
   switch (type) {
     case 'multiple_choice':
-      return { options: ['Option 1', 'Option 2'] }
+      return { options: ['', ''] }
     case 'long_text':
       return { maxLength: LONG_TEXT_MAX_LENGTH }
     case 'number':

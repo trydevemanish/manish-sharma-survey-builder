@@ -4,33 +4,34 @@ import { Button } from '../ui/Button'
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20 text-center">
-      <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600">
-        Branded survey builder
-      </p>
-      <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-        Create beautiful surveys your clients will love
-      </h1>
-      <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-        Build interactive forms, apply your brand, share a public link, and collect responses — all
-        in one simple dashboard.
-      </p>
-      <div className="mt-8 flex items-center justify-center gap-3">
-        <SignedOut>
-          <SignInButton mode="modal">
-            <Button size="md">Get started free</Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <Link to="/dashboard">
-            <Button size="md">Go to dashboard</Button>
-          </Link>
-        </SignedIn>
-        <a href="#features">
-          <Button variant="secondary" size="md">
-            See features
-          </Button>
-        </a>
+    <section className="mx-auto max-w-6xl px-6 py-24 text-center">
+      <div className="rounded-4xl border border-slate-200 bg-white/90 px-8 py-16 shadow-2xl backdrop-blur-sm">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-indigo-600">
+          Branded survey builder
+        </p>
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          Create beautiful surveys your clients will love.
+        </h1>
+        <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+          Build interactive forms, style them with your brand, publish a public link, and collect responses from any device.
+        </p>
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <SignedOut>
+            <SignInButton mode="modal" redirectUrl="/dashboard">
+              <Button size="md">Get started free</Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <Link to="/dashboard">
+              <Button size="md">Go to dashboard</Button>
+            </Link>
+          </SignedIn>
+          <a href="#features">
+            <Button variant="secondary" size="md">
+              See features
+            </Button>
+          </a>
+        </div>
       </div>
     </section>
   )

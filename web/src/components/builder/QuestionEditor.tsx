@@ -33,23 +33,21 @@ export function QuestionEditor({ question, onChange }: QuestionEditorProps) {
       <div className="space-y-4">
         <Input
           label="Question title"
+          placeholder="Enter the question prompt"
           value={question.title}
           onChange={(e) => updateTitle(e.target.value)}
         />
         <div className="space-y-2">
           <p className="text-sm font-medium text-slate-700">Options</p>
-          {options.map((option) => (
-            <div key={option} className="flex gap-2">
+          {options.map((option, index) => (
+            <div key={index} className="flex gap-2">
               <input
-                className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm"
+                className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                placeholder={`Option ${index + 1}`}
                 value={option}
-                onChange={(e) => updateOption(options.indexOf(option), e.target.value)}
+                onChange={(e) => updateOption(index, e.target.value)}
               />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => removeOption(options.indexOf(option))}
-              >
+              <Button variant="ghost" size="sm" onClick={() => removeOption(index)}>
                 Remove
               </Button>
             </div>
@@ -66,6 +64,7 @@ export function QuestionEditor({ question, onChange }: QuestionEditorProps) {
     <div className="space-y-4">
       <Input
         label="Question title"
+        placeholder="Enter the question prompt"
         value={question.title}
         onChange={(e) => updateTitle(e.target.value)}
       />
