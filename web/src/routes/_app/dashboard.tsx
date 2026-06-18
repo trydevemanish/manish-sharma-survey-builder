@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { SurveyCard } from '../../components/dashboard/SurveyCard'
 import { Button } from '../../components/ui/Button'
+import { ConfirmationModal } from '../../components/ui/ConfirmationModal'
 import { copyToClipboard } from '../../lib/survey-utils'
 import { useApi } from '../../lib/use-api'
 import type { SurveyListItem } from '../../types/survey'
@@ -40,12 +41,29 @@ function DashboardPage() {
     },
   })
 
-  const handleDeleteSurvey = async (surveyId: string, title: string) => {
-    const confirmed = window.confirm(
-      `Delete “${title}”? This will remove the survey and all related response data permanently.`
-    )
-    if (!confirmed) return
-    await deleteSurvey.mutateAsync(surveyId)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [pendingDeleteSurvey, setPendingDeleteSurvey] = useState<{
+    id: string
+    title: string
+  } | null>(null)
+  const [confirmationText, setConfirmationText] = useState('')
+
+  const openDeleteModal = (surveyId: string, title: string) => {
+    setPendingDeleteSurvey({ id: surveyId, title })
+    setConfirmationText('')
+    setIsDeleteModalOpen(true)
+  }
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+    setPendingDeleteSurvey(null)
+    setConfirmationText('')
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDeleteSurvey) return
+    await deleteSurvey.mutateAsync(pendingDeleteSurvey.id)
+    closeDeleteModal()
   }
 
   const surveys = data?.surveys ?? []
@@ -57,49 +75,64 @@ function DashboardPage() {
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-          <p className="mt-1 text-sm text-slate-600">All surveys you have created</p>
-        </div>
-        <Button onClick={() => createSurvey.mutate()} disabled={createSurvey.isPending}>
-          {createSurvey.isPending ? 'Creating...' : 'New survey'}
-        </Button>
-      </div>
+    <div className="h-screen p-8 flex flex-col">
+      <div className="shrink-0">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+            <p className="mt-1 text-sm text-slate-600">
+              All surveys you have created
+            </p>
+          </div>
 
-      {message ? <p className="mb-4 text-sm text-green-700">{message}</p> : null}
-      {isLoading ? <p className="text-slate-600">Loading surveys...</p> : null}
-      {error ? <p className="text-red-600">{error.message}</p> : null}
-
-      {!isLoading && surveys.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
-          <h2 className="text-lg font-semibold text-slate-900">No surveys yet</h2>
-          <p className="mt-2 text-sm text-slate-600">
-            Create your first branded survey to get started.
-          </p>
           <Button
-            className="mt-4"
             onClick={() => createSurvey.mutate()}
             disabled={createSurvey.isPending}
           >
-            Create survey
+            {createSurvey.isPending ? "Creating..." : "New survey"}
           </Button>
         </div>
-      ) : null}
 
-      <div className="overflow-x-auto pb-3">
-        <div className="min-w-full grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {message && (
+          <p className="mb-4 text-sm text-green-700">{message}</p>
+        )}
+
+        {isLoading && (
+          <p className="text-slate-600">Loading surveys...</p>
+        )}
+
+        {error && (
+          <p className="text-red-600">{error.message}</p>
+        )}
+      </div>
+
+      {/* Scrollable Cards Area */}
+      <div className="flex-1 overflow-y-auto scrollbar-none">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 pb-6">
           {surveys.map((survey) => (
             <SurveyCard
               key={survey.id}
               survey={survey}
               onCopyLink={handleCopyLink}
-              onDelete={handleDeleteSurvey}
+              onDelete={openDeleteModal}
             />
           ))}
         </div>
       </div>
+
+      <ConfirmationModal
+        open={isDeleteModalOpen}
+        title="Delete survey"
+        description={pendingDeleteSurvey ? pendingDeleteSurvey.title : "Untitled"}
+        actionLabel="Delete survey"
+        cancelLabel="Cancel"
+        requiredText={pendingDeleteSurvey?.title}
+        value={confirmationText}
+        onValueChange={setConfirmationText}
+        onConfirm={handleConfirmDelete}
+        onCancel={closeDeleteModal}
+        confirmDisabled={confirmationText !== pendingDeleteSurvey?.title || deleteSurvey.isPending}
+      />
     </div>
   )
 }

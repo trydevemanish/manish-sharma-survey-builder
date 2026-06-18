@@ -20,7 +20,7 @@ export function LandingBanner() {
           </p>
           <div className="flex flex-wrap gap-3">
             <SignedOut>
-              <SignInButton mode="modal" redirectUrl="/dashboard">
+              <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
                 <Button size="md">Get started free</Button>
               </SignInButton>
             </SignedOut>

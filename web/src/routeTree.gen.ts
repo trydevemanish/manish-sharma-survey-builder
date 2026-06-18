@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as DraftRouteImport } from './routes/draft'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SSlugRouteImport } from './routes/s/$slug'
@@ -20,6 +21,11 @@ import { Route as AppSurveysIdEditRouteImport } from './routes/_app/surveys/$id/
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DraftRoute = DraftRouteImport.update({
+  id: '/draft',
+  path: '/draft',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -54,6 +60,7 @@ const AppSurveysIdEditRoute = AppSurveysIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/draft': typeof DraftRoute
   '/sign-in': typeof SignInRoute
   '/dashboard': typeof AppDashboardRoute
   '/s/$slug': typeof SSlugRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/draft': typeof DraftRoute
   '/sign-in': typeof SignInRoute
   '/dashboard': typeof AppDashboardRoute
   '/s/$slug': typeof SSlugRoute
@@ -72,6 +80,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/draft': typeof DraftRoute
   '/sign-in': typeof SignInRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/s/$slug': typeof SSlugRoute
@@ -82,6 +91,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/draft'
     | '/sign-in'
     | '/dashboard'
     | '/s/$slug'
@@ -90,6 +100,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/draft'
     | '/sign-in'
     | '/dashboard'
     | '/s/$slug'
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_app'
+    | '/draft'
     | '/sign-in'
     | '/_app/dashboard'
     | '/s/$slug'
@@ -109,6 +121,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  DraftRoute: typeof DraftRoute
   SignInRoute: typeof SignInRoute
   SSlugRoute: typeof SSlugRoute
 }
@@ -120,6 +133,13 @@ declare module '@tanstack/react-router' {
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/draft': {
+      id: '/draft'
+      path: '/draft'
+      fullPath: '/draft'
+      preLoaderRoute: typeof DraftRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -184,6 +204,7 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  DraftRoute: DraftRoute,
   SignInRoute: SignInRoute,
   SSlugRoute: SSlugRoute,
 }

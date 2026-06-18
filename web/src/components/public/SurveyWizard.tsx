@@ -6,9 +6,10 @@ import { isAnswerValid, QuestionStep } from './QuestionStep'
 
 type SurveyWizardProps = {
   survey: PublicSurveyDto
+  isPreview?: boolean
 }
 
-export function SurveyWizard({ survey }: SurveyWizardProps) {
+export function SurveyWizard({ survey, isPreview = false }: SurveyWizardProps) {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({})
   const [submitting, setSubmitting] = useState(false)
@@ -109,8 +110,8 @@ export function SurveyWizard({ survey }: SurveyWizardProps) {
             Next
           </Button>
         ) : (
-          <Button disabled={!canAdvance || submitting} onClick={() => void submit()}>
-            {submitting ? 'Submitting...' : 'Submit'}
+          <Button disabled={!canAdvance || submitting || isPreview} onClick={() => void (isPreview ? null : submit())}>
+            {isPreview ? 'Preview mode - cannot submit' : submitting ? 'Submitting...' : 'Submit'}
           </Button>
         )}
       </div>

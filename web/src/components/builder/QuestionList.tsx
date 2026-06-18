@@ -6,7 +6,6 @@ type QuestionListProps = {
   questions: QuestionInput[]
   selectedId: string
   onSelect: (id: string) => void
-  onAdd: (type: QuestionType) => void
   onRemove: (id: string) => void
   onMove: (id: string, direction: 'up' | 'down') => void
 }
@@ -15,7 +14,6 @@ export function QuestionList({
   questions,
   selectedId,
   onSelect,
-  onAdd,
   onRemove,
   onMove,
 }: QuestionListProps) {
@@ -69,17 +67,6 @@ export function QuestionList({
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="space-y-2">
-        <p className="text-sm font-medium text-slate-700">Add question</p>
-        <div className="grid grid-cols-2 gap-2">
-          {(Object.keys(QUESTION_TYPE_LABELS) as QuestionType[]).map((type) => (
-            <Button key={type} variant="secondary" size="sm" onClick={() => onAdd(type)}>
-              {QUESTION_TYPE_LABELS[type]}
-            </Button>
-          ))}
-        </div>
       </div>
     </div>
   )

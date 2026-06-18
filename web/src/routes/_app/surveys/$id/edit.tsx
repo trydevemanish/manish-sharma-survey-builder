@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
 import { BrandingPanel } from '../../../../components/builder/BrandingPanel'
 import { QuestionEditor } from '../../../../components/builder/QuestionEditor'
 import { QuestionList } from '../../../../components/builder/QuestionList'
-import { SurveyPreview } from '../../../../components/builder/SurveyPreview'
 import { Button } from '../../../../components/ui/Button'
+import { QUESTION_TYPE_LABELS } from '../../../../types/survey'
 import { Input } from '../../../../components/ui/Input'
 import { copyToClipboard, defaultConfigForType } from '../../../../lib/survey-utils'
 import { useApi } from '../../../../lib/use-api'
@@ -16,10 +16,17 @@ export const Route = createFileRoute('/_app/surveys/$id/edit')({
   component: SurveyEditPage,
 })
 
+const PlayButton = () => {
+  return(
+    <img width="48" height="48" src="https://img.icons8.com/sf-regular-filled/48/FFFFFF/play.png" className='size-4' alt="play"/>
+  )
+}
+
 function SurveyEditPage() {
   const { id } = Route.useParams()
   const { api } = useApi()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
   const [primaryColor, setPrimaryColor] = useState('#6366f1')
@@ -126,10 +133,10 @@ function SurveyEditPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 h-screen overflow-y-auto scrollbar-none">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Input value={title} placeholder='Enter your title name!' onChange={(e) => setTitle(e.target.value)} />
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" onClick={() => void copyLink()}>
@@ -146,19 +153,48 @@ function SurveyEditPage() {
 
       {message ? <p className="mb-4 text-sm text-green-700">{message}</p> : null}
       {saveSurvey.error ? (
-        <p className="mb-4 text-sm text-red-600">{saveSurvey.error.message}</p>
+        <p className="mb-4 text-sm font-semibold pl-2 text-red-600">*{saveSurvey.error.message}</p>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_320px]">
+      <div className='mb-6 flex justify-between'>
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="text-sm font-medium text-slate-700">Add question</p>
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(QUESTION_TYPE_LABELS) as QuestionType[]).map((type) => (
+              <Button key={type} variant="secondary" size="sm" onClick={() => addQuestion(type)}>
+                {QUESTION_TYPE_LABELS[type]}
+              </Button>
+            ))}
+          </div>
+        </div>
+        <Button
+          disabled={saveSurvey.isPending}
+          onClick={() => {
+            try {
+              const draft = { id, title, primaryColor, logoUrl: logoUrl || null, questions, slug }
+              sessionStorage.setItem('survey-draft', JSON.stringify(draft))
+            } catch (e) {
+              // ignore
+            }
+            // navigate to /draft
+            window.location.href = '/draft'
+          }}
+          className='flex gap-2 items-center justify-center'
+        >
+          <PlayButton />
+          <span>Preview the form</span>
+        </Button>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)_320px] h-auto max-h-full overflow-y-auto scrollbar-none ">
         <section className="rounded-xl border border-slate-200 bg-white p-4">
           <h2 className="mb-4 text-sm font-semibold text-slate-900">Questions</h2>
-          <div className="max-h-[calc(100vh-20rem)] overflow-y-auto pr-1">
+          <div className="overflow-y-auto pr-1 cursor-pointer">
             {selectedId ? (
               <QuestionList
                 questions={questions}
-                selectedId={selectedId}
+                selectedId={selectedId!}
                 onSelect={setSelectedId}
-                onAdd={addQuestion}
                 onRemove={removeQuestion}
                 onMove={moveQuestion}
               />
@@ -168,8 +204,8 @@ function SurveyEditPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6">
-          <h2 className="mb-4 text-sm font-semibold text-slate-900">Edit question</h2>
+        <section className="rounded-xl border border-slate-200 max-h-64 bg-white p-6">
+          <h2 className="mb-4 text-sm font-bold text-slate-900">Edit <span className='underline'>question!</span></h2>
           {selectedQuestion ? (
             <QuestionEditor
               question={selectedQuestion}
@@ -182,7 +218,7 @@ function SurveyEditPage() {
           )}
         </section>
 
-        <section className="space-y-6 rounded-xl border border-slate-200 bg-white p-4">
+        <section className="space-y-6 rounded-xl border border-slate-200 max-h-96 bg-white p-4">
           <div>
             <h2 className="mb-4 text-sm font-semibold text-slate-900">Branding</h2>
             <BrandingPanel
@@ -190,15 +226,6 @@ function SurveyEditPage() {
               logoUrl={logoUrl}
               onColorChange={setPrimaryColor}
               onLogoUrlChange={setLogoUrl}
-            />
-          </div>
-          <div>
-            <h2 className="mb-4 text-sm font-semibold text-slate-900">Preview</h2>
-            <SurveyPreview
-              title={title}
-              logoUrl={logoUrl}
-              primaryColor={primaryColor}
-              questions={questions as QuestionDto[]}
             />
           </div>
         </section>
