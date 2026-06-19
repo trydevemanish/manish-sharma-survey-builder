@@ -22,6 +22,6 @@
   ],
   "vars": {
     "CLERK_SECRET_KEY": "",
-    "FRONTEND_URL" : ""
+    "FRONTEND_URL": ""
   }
 }

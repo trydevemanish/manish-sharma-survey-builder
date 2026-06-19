@@ -13,11 +13,12 @@ export function Hero() {
           Create beautiful surveys your clients will love.
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-          Build interactive forms, style them with your brand, publish a public link, and collect responses from any device.
+          Build interactive forms, style them with your brand, publish a public link, and collect
+          responses from any device.
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <SignedOut>
-            <SignInButton mode="modal" redirectUrl="/dashboard">
+            <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
               <Button size="md">Get started free</Button>
             </SignInButton>
           </SignedOut>

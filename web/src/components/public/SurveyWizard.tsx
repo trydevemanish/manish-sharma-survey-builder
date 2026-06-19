@@ -110,7 +110,10 @@ export function SurveyWizard({ survey, isPreview = false }: SurveyWizardProps) {
             Next
           </Button>
         ) : (
-          <Button disabled={!canAdvance || submitting || isPreview} onClick={() => void (isPreview ? null : submit())}>
+          <Button
+            disabled={!canAdvance || submitting || isPreview}
+            onClick={() => void (isPreview ? null : submit())}
+          >
             {isPreview ? 'Preview mode - cannot submit' : submitting ? 'Submitting...' : 'Submit'}
           </Button>
         )}

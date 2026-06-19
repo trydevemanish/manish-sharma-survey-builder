@@ -6,7 +6,8 @@ export type QuestionType =
   | 'rating'
   | 'file'
 
-export type MultipleChoiceConfig = { options: string[] }
+export type MultipleChoiceOption = { id: string; label: string }
+export type MultipleChoiceConfig = { options: MultipleChoiceOption[] }
 export type LongTextConfig = { maxLength: number }
 export type NumberConfig = { min?: number; max?: number }
 export type FileConfig = { accept?: string[]; maxSizeMb: number }

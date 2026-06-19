@@ -80,30 +80,19 @@ function DashboardPage() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-            <p className="mt-1 text-sm text-slate-600">
-              All surveys you have created
-            </p>
+            <p className="mt-1 text-sm text-slate-600">All surveys you have created</p>
           </div>
 
-          <Button
-            onClick={() => createSurvey.mutate()}
-            disabled={createSurvey.isPending}
-          >
-            {createSurvey.isPending ? "Creating..." : "New survey"}
+          <Button onClick={() => createSurvey.mutate()} disabled={createSurvey.isPending}>
+            {createSurvey.isPending ? 'Creating...' : 'New survey'}
           </Button>
         </div>
 
-        {message && (
-          <p className="mb-4 text-sm text-green-700">{message}</p>
-        )}
+        {message && <p className="mb-4 text-sm text-green-700">{message}</p>}
 
-        {isLoading && (
-          <p className="text-slate-600">Loading surveys...</p>
-        )}
+        {isLoading && <p className="text-slate-600">Loading surveys...</p>}
 
-        {error && (
-          <p className="text-red-600">{error.message}</p>
-        )}
+        {error && <p className="text-red-600">{error.message}</p>}
       </div>
 
       {/* Scrollable Cards Area */}
@@ -123,7 +112,7 @@ function DashboardPage() {
       <ConfirmationModal
         open={isDeleteModalOpen}
         title="Delete survey"
-        description={pendingDeleteSurvey ? pendingDeleteSurvey.title : "Untitled"}
+        description={pendingDeleteSurvey ? pendingDeleteSurvey.title : 'Untitled'}
         actionLabel="Delete survey"
         cancelLabel="Cancel"
         requiredText={pendingDeleteSurvey?.title}

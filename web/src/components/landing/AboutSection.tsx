@@ -8,7 +8,8 @@ export function AboutSection() {
             Build surveys with confidence and speed.
           </h2>
           <p className="max-w-2xl text-lg leading-8 text-slate-600">
-            We help teams design, publish, and analyze branded surveys without the overhead of complex tooling. Create forms that feel modern, simple, and delightful.
+            We help teams design, publish, and analyze branded surveys without the overhead of
+            complex tooling. Create forms that feel modern, simple, and delightful.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">

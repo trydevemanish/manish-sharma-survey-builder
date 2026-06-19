@@ -56,7 +56,9 @@ export function ConfirmationModal({
         <div className="px-6 py-6 sm:px-8">
           {/* <p className="text-sm leading-7 text-slate-700 ">{description}</p> */}
           <p className="text-sm leading-7 text-slate-700 ">
-            This will permanently delete "<span className='text-red-800 font-semibold'>{description}</span>" and all responses. This action cannot be undone.
+            This will permanently delete "
+            <span className="text-red-800 font-semibold">{description}</span>" and all responses.
+            This action cannot be undone.
           </p>
 
           {requiredText ? (

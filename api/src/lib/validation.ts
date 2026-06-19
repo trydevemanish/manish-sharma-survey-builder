@@ -40,8 +40,11 @@ export function validateQuestionInput(question: QuestionInput): string | null {
       if (!config.options || config.options.length < 2) {
         return 'Multiple choice needs at least 2 options'
       }
-      if (config.options.some((o) => !o.trim())) {
+      if (config.options.some((o) => !o.label.trim())) {
         return 'Multiple choice options cannot be empty'
+      }
+      if (new Set(config.options.map((o) => o.id)).size !== config.options.length) {
+        return 'Multiple choice option ids must be unique'
       }
       break
     }
@@ -85,10 +88,15 @@ export function validateSurveyInput(
   return null
 }
 
+const createOption = (label: string, index: number) => ({
+  id: `option-${Date.now()}-${index}-${Math.random().toString(36).slice(2)}`,
+  label,
+})
+
 export function defaultConfigForType(type: QuestionType): QuestionConfig {
   switch (type) {
     case 'multiple_choice':
-      return { options: ['Option 1', 'Option 2'] }
+      return { options: [createOption('Option 1', 0), createOption('Option 2', 1)] }
     case 'long_text':
       return { maxLength: LONG_TEXT_MAX_LENGTH }
     case 'number':
@@ -135,7 +143,7 @@ export function validateAnswer(
     case 'multiple_choice': {
       const v = value as { choice?: string }
       const options = (config as MultipleChoiceConfig).options ?? []
-      if (!v.choice || !options.includes(v.choice)) {
+      if (!v.choice || !options.some((o) => o.id === v.choice)) {
         return 'Select a valid option'
       }
       return null

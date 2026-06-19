@@ -1,9 +1,9 @@
 import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { LandingBanner } from '../components/landing/LandingBanner'
 import { AboutSection } from '../components/landing/AboutSection'
-import { FeedbackSection } from '../components/landing/FeedbackSection'
 import { FeatureGrid } from '../components/landing/FeatureGrid'
+import { FeedbackSection } from '../components/landing/FeedbackSection'
+import { LandingBanner } from '../components/landing/LandingBanner'
 import { PartnerMarquee } from '../components/landing/PartnerMarquee'
 import { UseCasesSection } from '../components/landing/UseCasesSection'
 import { Button } from '../components/ui/Button'
@@ -20,7 +20,7 @@ function LandingPage() {
           <span className="text-lg font-semibold text-white">Survey Mini</span>
           <div className="flex items-center gap-3">
             <SignedOut>
-              <SignInButton mode="modal" fallbackRedirectUrl="/dashboard"> 
+              <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
                 <Button variant="ghost" size="sm" className="text-white border-white/20">
                   Sign in
                 </Button>

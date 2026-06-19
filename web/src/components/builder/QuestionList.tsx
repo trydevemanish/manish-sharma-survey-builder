@@ -1,4 +1,4 @@
-import type { QuestionInput, QuestionType } from '../../types/survey'
+import type { QuestionInput } from '../../types/survey'
 import { QUESTION_TYPE_LABELS } from '../../types/survey'
 import { Button } from '../ui/Button'
 

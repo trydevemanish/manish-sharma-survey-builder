@@ -14,14 +14,26 @@ export function QuestionEditor({ question, onChange }: QuestionEditorProps) {
     const config = question.config as MultipleChoiceConfig
     const options = config.options ?? []
 
+    const createOption = (label: string, index: number) => ({
+      id: `option-${Date.now()}-${index}-${Math.random().toString(36).slice(2)}`,
+      label,
+    })
+
     const updateOption = (index: number, value: string) => {
       const next = [...options]
-      next[index] = value
+      const existing = next[index]
+      if (!existing) return
+      next[index] = { ...existing, label: value }
       onChange({ ...question, config: { options: next } })
     }
 
     const addOption = () => {
-      onChange({ ...question, config: { options: [...options, `Option ${options.length + 1}`] } })
+      onChange({
+        ...question,
+        config: {
+          options: [...options, createOption(`Option ${options.length + 1}`, options.length)],
+        },
+      })
     }
 
     const removeOption = (index: number) => {
@@ -40,11 +52,11 @@ export function QuestionEditor({ question, onChange }: QuestionEditorProps) {
         <div className="space-y-2">
           <p className="text-sm font-medium text-slate-700">Options</p>
           {options.map((option, index) => (
-            <div key={index} className="flex gap-2">
+            <div key={option.id} className="flex gap-2">
               <input
                 className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 placeholder={`Option ${index + 1}`}
-                value={option}
+                value={option.label}
                 onChange={(e) => updateOption(index, e.target.value)}
               />
               <Button variant="ghost" size="sm" onClick={() => removeOption(index)}>

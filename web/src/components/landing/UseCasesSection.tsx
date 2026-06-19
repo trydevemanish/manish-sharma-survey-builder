@@ -8,7 +8,8 @@ export function UseCasesSection() {
             Designed for every survey workflow.
           </h2>
           <p className="max-w-2xl text-lg leading-8 text-slate-600">
-            Whether you need quick customer feedback, product research, or team pulse surveys, the editor adapts to your needs with clean, fast interactions.
+            Whether you need quick customer feedback, product research, or team pulse surveys, the
+            editor adapts to your needs with clean, fast interactions.
           </p>
         </div>
 

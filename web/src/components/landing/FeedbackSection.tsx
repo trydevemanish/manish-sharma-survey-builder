@@ -1,16 +1,19 @@
 const testimonials = [
   {
-    quote: 'Survey Builder made it easy to launch customer feedback forms in minutes. The results look polished and the workflow is intuitive.',
+    quote:
+      'Survey Builder made it easy to launch customer feedback forms in minutes. The results look polished and the workflow is intuitive.',
     author: 'Sara Park',
     role: 'Product Lead, Pulse Labs',
   },
   {
-    quote: 'Our team now ships surveys faster, and the branded forms have helped boost response rates. The dashboard keeps everything organized.',
+    quote:
+      'Our team now ships surveys faster, and the branded forms have helped boost response rates. The dashboard keeps everything organized.',
     author: 'Amit Joshi',
     role: 'Growth Manager, MarketLoop',
   },
   {
-    quote: 'The preview and publish experience feels modern and calm. It is exactly what we needed for our internal research and external campaigns.',
+    quote:
+      'The preview and publish experience feels modern and calm. It is exactly what we needed for our internal research and external campaigns.',
     author: 'Lina Martinez',
     role: 'Research Director, Brightline',
   },
@@ -21,7 +24,9 @@ export function FeedbackSection() {
     <section id="feedback" className="mx-auto max-w-7xl px-6 py-24">
       <div className="mb-12 text-center">
         <p className="text-sm uppercase tracking-[0.35em] text-indigo-600">What users are saying</p>
-        <h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">Trusted feedback from teams like yours</h2>
+        <h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">
+          Trusted feedback from teams like yours
+        </h2>
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
         {testimonials.map((testimonial) => (

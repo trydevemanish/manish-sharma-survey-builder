@@ -2,14 +2,17 @@ import { Card } from '../ui/Card'
 
 const features = [
   {
+    id: 1,
     title: 'Visual builder',
     description: 'Add, remove, and reorder questions with six field types including file uploads.',
   },
   {
+    id: 2,
     title: 'Per-survey branding',
     description: 'Set a primary color and logo so every public survey feels on-brand.',
   },
   {
+    id: 3,
     title: 'Share & collect',
     description: 'Send a public link — respondents fill it in without signing in.',
   },
@@ -20,11 +23,19 @@ export function FeatureGrid() {
     <section id="features" className="mx-auto mt-24 max-w-5xl px-6 pb-20">
       <div className="mb-12 text-center">
         <p className="text-sm uppercase tracking-[0.35em] text-indigo-600">What we offer</p>
-        <h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">What u are <span className='underline underline-offset-4 decoration-2 decoration-indigo-600'>getting</span> ?</h2>
+        <h2 className="mt-4 text-4xl font-bold text-slate-900 sm:text-5xl">
+          What u are{' '}
+          <span className="underline underline-offset-4 decoration-2 decoration-indigo-600">
+            getting
+          </span>{' '}
+          ?
+        </h2>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
         {features.map((feature) => (
-          <Card className="
+          <Card
+            key={feature.id}
+            className="
               group relative overflow-hidden
               rounded-2xl p-6
               border border-slate-200/50
@@ -47,9 +58,7 @@ export function FeatureGrid() {
                 {feature.title}
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                {feature.description}
-              </p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{feature.description}</p>
             </div>
           </Card>
         ))}
@@ -57,8 +66,3 @@ export function FeatureGrid() {
     </section>
   )
 }
-
-          // <Card key={feature.title} className="p-6 focus:border focus:ring-1 focus:bg-cyan-600 focus-within:border">
-          //   <h3 className="text-lg font-semibold text-slate-900">{feature.title}</h3>
-          //   <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
-          // </Card>

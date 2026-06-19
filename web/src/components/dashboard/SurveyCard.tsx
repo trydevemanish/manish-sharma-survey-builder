@@ -42,11 +42,7 @@ export function SurveyCard({ survey, onCopyLink, onDelete }: SurveyCardProps) {
           Copy link
         </Button>
         {onDelete ? (
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={() => onDelete(survey.id, survey.title)}
-          >
+          <Button variant="danger" size="sm" onClick={() => onDelete(survey.id, survey.title)}>
             Delete
           </Button>
         ) : null}
