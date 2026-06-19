@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { apiFetch } from '../../lib/api'
-import type { AnswerValue, FileAnswer, QuestionDto } from '../../types/survey'
+import type { AnswerValue, FileAnswer, MultipleChoiceOption, QuestionDto } from '../../types/survey'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
 
@@ -23,7 +23,7 @@ export function QuestionStep({ question, slug, value, onChange }: QuestionStepPr
       )
     case 'long_text': {
       const text = (value as { text?: string } | undefined)?.text ?? ''
-      const maxLength = 500
+      const maxLength = 500         
       return (
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-slate-700">{question.title}</span>
@@ -49,23 +49,23 @@ export function QuestionStep({ question, slug, value, onChange }: QuestionStepPr
         />
       )
     case 'multiple_choice': {
-      const options = (question.config as { options?: string[] }).options ?? []
+      const options = (question.config as { options?: MultipleChoiceOption[] }).options ?? []
       const selected = (value as { choice?: string } | undefined)?.choice
       return (
         <fieldset className="space-y-3">
           <legend className="text-sm font-medium text-slate-700">{question.title}</legend>
           {options.map((option) => (
             <label
-              key={option}
+              key={option.id}
               className="flex cursor-pointer items-center gap-3 rounded-lg border border-slate-200 px-4 py-3 hover:bg-slate-50"
             >
               <input
                 type="radio"
                 name={question.id}
-                checked={selected === option}
-                onChange={() => onChange({ choice: option })}
+                checked={selected === option.id}
+                onChange={() => onChange({ choice: option.id })}
               />
-              <span className="text-sm text-slate-800">{option}</span>
+              <span className="text-sm text-slate-800">{option.label}</span>
             </label>
           ))}
         </fieldset>
