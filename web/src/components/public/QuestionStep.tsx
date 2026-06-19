@@ -23,7 +23,7 @@ export function QuestionStep({ question, slug, value, onChange }: QuestionStepPr
       )
     case 'long_text': {
       const text = (value as { text?: string } | undefined)?.text ?? ''
-      const maxLength = 500         
+      const maxLength = 500
       return (
         <label className="block space-y-1.5">
           <span className="text-sm font-medium text-slate-700">{question.title}</span>
