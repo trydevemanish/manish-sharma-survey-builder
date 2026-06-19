@@ -37,7 +37,7 @@ function SurveyResponsesPage() {
   const responses = data?.responses ?? []
 
   return (
-    <div className="p-8">
+    <div className="p-8 max-h-screen">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Responses</h1>
@@ -59,7 +59,7 @@ function SurveyResponsesPage() {
         </div>
       ) : null}
 
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[82vh] overflow-y-auto scrollbar-none">
         {responses.map((response) => (
           <Card key={response.id} className="p-5">
             <p className="text-sm font-medium text-slate-900">

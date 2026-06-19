@@ -4,9 +4,15 @@ import publicRoutes from './routes/public'
 import surveys from './routes/surveys'
 import uploads from './routes/uploads'
 
+type Env = {
+  FRONTEND_URL : string
+}
+
 const app = new Hono<{ Bindings: Env }>()
 
-app.use('*', corsMiddleware)
+app.use('*', (c, next) => 
+  corsMiddleware(c.env.FRONTEND_URL)(c, next)
+)
 
 app.get('/api/health', (c) => c.json({ status: 'ok' }))
 
