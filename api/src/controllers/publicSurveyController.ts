@@ -1,12 +1,14 @@
 import type { Context } from 'hono'
 import type { AnswerInput } from '../db/schema'
 import type { PublicSurveyService } from '../service/publicSurveyService'
+import type { ContentfulStatusCode } from 'hono/utils/http-status'
 
 export class PublicSurveyController {
   constructor(private readonly publicSurveyService: PublicSurveyService) {}
 
   async getSurvey(c: Context<{ Bindings: Env }>) {
     const slug = c.req.param('slug')
+    if(!slug) return c.json({ error :'Invalid slug'}, 404)
     const survey = await this.publicSurveyService.getPublicSurvey(slug)
 
     if (!survey) {
@@ -18,10 +20,12 @@ export class PublicSurveyController {
 
   async submitResponse(c: Context<{ Bindings: Env }>) {
     const slug = c.req.param('slug')
+    if(!slug) return c.json({ error :'Invalid slug'}, 404)
+
     const body = await c.req.json<{ answers: AnswerInput[] }>()
 
     const result = await this.publicSurveyService.submitSurveyResponse(slug, body.answers ?? [])
 
-    return c.json(result.body, result.status)
+    return c.json(result.body, result.status as ContentfulStatusCode)
   }
 }
