@@ -5,6 +5,7 @@ import { FeatureGrid } from '../components/landing/FeatureGrid'
 import { FeedbackSection } from '../components/landing/FeedbackSection'
 import { LandingBanner } from '../components/landing/LandingBanner'
 import { PartnerMarquee } from '../components/landing/PartnerMarquee'
+import { PricingSection } from '../components/landing/PricingSection'
 import { UseCasesSection } from '../components/landing/UseCasesSection'
 import { Button } from '../components/ui/Button'
 
@@ -41,6 +42,7 @@ function LandingPage() {
       <UseCasesSection />
       <AboutSection />
       <FeedbackSection />
+      <PricingSection />
       <PartnerMarquee />
 
       <footer className="border-t border-slate-200 bg-white py-10 text-center text-sm text-slate-500">
